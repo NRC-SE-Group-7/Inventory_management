@@ -1,0 +1,5 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="160" height="40" viewBox="0 0 160 40">
+  <rect rx="6" width="160" height="40" fill="#0d6efd"/>
+  <text x="12" y="25" fill="#fff" font-family="Segoe UI, Roboto, Arial" font-size="14">Company</text>
+  <text x="84" y="25" fill="#fff" font-family="Segoe UI, Roboto, Arial" font-weight="700" font-size="14">Inventory</text>
+</svg>
