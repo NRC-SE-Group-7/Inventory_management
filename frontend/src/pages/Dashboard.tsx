@@ -1,5 +1,15 @@
 import { SAMPLE } from '../data/sampleData.ts';
 
+
+function DetailCard({ title, description}) {
+  return (
+    <div className="card-modern p-2 rounded-md shadow-md bg-gray-200 text-black">
+      <h5 className='text-xl'>{title}</h5>
+      <p className='text-muted'>{description}</p>
+    </div>
+  )
+}
+
 function Dashboard() {
   const monthLabels = ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec'];
   const maxSales = Math.max(...SAMPLE.salesByMonth);
@@ -10,33 +20,28 @@ function Dashboard() {
     <>
       <div className="row g-3">
         <div className="col-md-3">
-          <div className="card-modern p-3">
-            <div className="d-flex justify-content-between align-items-center">
-              <div>
-                <small className="text-muted">Total Products</small>
-                <div className="h4 mb-0">{SAMPLE.overview.products}</div>
-              </div>
-              <div className="text-primary display-6"><i className="fa fa-boxes-stacked" /></div>
-            </div>
-          </div>
+          <DetailCard
+            title="Total Products"
+            description={SAMPLE.overview.products.toString()}
+          />
         </div>
         <div className="col-md-3">
-          <div className="card-modern p-3">
-            <small className="text-muted">Total Categories</small>
-            <div className="h4">{SAMPLE.overview.categories}</div>
-          </div>
+          <DetailCard
+            title="Total Categories"
+            description={SAMPLE.overview.categories.toString()}
+          />
         </div>
         <div className="col-md-3">
-          <div className="card-modern p-3">
-            <small className="text-muted">Total Suppliers</small>
-            <div className="h4">{SAMPLE.overview.suppliers}</div>
-          </div>
+          <DetailCard
+            title="Total Suppliers"
+            description={SAMPLE.overview.suppliers.toString()}
+          />
         </div>
         <div className="col-md-3">
-          <div className="card-modern p-3">
-            <small className="text-muted">Total Sales</small>
-            <div className="h4">{SAMPLE.overview.sales}</div>
-          </div>
+          <DetailCard
+            title="Total Sales"
+            description={SAMPLE.overview.sales.toString()}
+          />
         </div>
       </div>
 
@@ -48,7 +53,7 @@ function Dashboard() {
               <small className="text-muted">Last 12 months</small>
             </div>
             <div className="chart-wrap" style={{ position: 'relative' }}>
-              <div className="d-flex align-items-end gap-2 h-100 pt-3">
+              <div className="d-flex align-items-end gap-2 h-100 p-5">
                 {SAMPLE.salesByMonth.map((sales, index) => (
                   <div key={monthLabels[index]} className="d-flex flex-column align-items-center flex-fill h-100">
                     <div

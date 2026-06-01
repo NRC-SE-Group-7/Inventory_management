@@ -13,8 +13,8 @@ const corsOptions= {
 const app = express();
 app.use(cors({
     origin: 'https://inventory-management-7kntgg32v-innocent-kamesa-s-projects.vercel.app',
-  methods: ['GET', 'POST', 'PUT', 'DELETE'],
-  allowedHeaders: ['Content-Type', 'Authorization']
+    methods: ['GET', 'POST', 'PUT', 'DELETE'],
+    allowedHeaders: ['Content-Type', 'Authorization']
 }));
 
 app.use(express.json());
