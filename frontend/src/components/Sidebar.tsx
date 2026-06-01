@@ -12,7 +12,12 @@ const navLinks = [
   { to: '/settings', icon: 'fa-cog', label: 'Settings' }
 ];
 
-function Sidebar({ open, onLinkClick }) {
+type SidebarProps = {
+  open: boolean;
+  onLinkClick: () => void;
+};
+
+function Sidebar({ open, onLinkClick }: SidebarProps) {
   return (
     <nav className={`sidebar${open ? ' show' : ''}`}>
       <div className="px-3 mb-3 text-center">

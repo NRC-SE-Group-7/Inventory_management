@@ -1,35 +1,9 @@
-import { useEffect, useRef } from 'react';
-//import Chart from 'chart.js/auto';
-import { SAMPLE } from '../data/sampleData.js';
+import { SAMPLE } from '../data/sampleData.ts';
 
 function Reports() {
-  const chartRef = useRef(null);
-
-  useEffect(() => {
-    let chart;
-    if (chartRef.current) {
-      chart = new Chart(chartRef.current, {
-        type: 'line',
-        data: {
-          labels: ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul'],
-          datasets: [
-            {
-              label: 'Sales',
-              data: SAMPLE.salesByMonth.slice(0, 7),
-              borderColor: '#0d6efd',
-              backgroundColor: 'rgba(13,110,253,0.08)',
-              tension: 0.3
-            }
-          ]
-        },
-        options: { responsive: true, maintainAspectRatio: false }
-      });
-    }
-
-    return () => {
-      chart?.destroy();
-    };
-  }, []);
+  const labels = ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul'];
+  const sales = SAMPLE.salesByMonth.slice(0, labels.length);
+  const maxSales = Math.max(...sales);
 
   return (
     <>
@@ -55,7 +29,18 @@ function Reports() {
       </div>
       <div className="card-modern p-3 mt-3">
         <div className="chart-wrap" style={{ position: 'relative', minHeight: 240 }}>
-          <canvas ref={chartRef} />
+          <div className="d-flex align-items-end gap-3 h-100 pt-3">
+            {sales.map((value, index) => (
+              <div key={labels[index]} className="d-flex flex-column align-items-center flex-fill h-100">
+                <div
+                  className="bg-primary rounded-top w-100"
+                  style={{ height: `${Math.max((value / maxSales) * 100, 8)}%`, minHeight: 14 }}
+                  title={`${labels[index]}: ${value}`}
+                />
+                <small className="text-muted mt-2">{labels[index]}</small>
+              </div>
+            ))}
+          </div>
         </div>
       </div>
     </>

@@ -1,55 +1,10 @@
-import { useEffect, useRef } from 'react';
-//import Chart from 'chart.js/auto';
-import { SAMPLE } from '../data/sampleData.js';
+import { SAMPLE } from '../data/sampleData.ts';
 
 function Dashboard() {
-  const salesRef = useRef(null);
-  const inventoryRef = useRef(null);
-
-  useEffect(() => {
-    let salesChart;
-    let inventoryChart;
-
-    if (salesRef.current) {
-      salesChart = new Chart(salesRef.current, {
-        type: 'line',
-        data: {
-          labels: ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec'],
-          datasets: [
-            {
-              label: 'Sales',
-              data: SAMPLE.salesByMonth,
-              borderColor: '#0d6efd',
-              backgroundColor: 'rgba(13,110,253,0.08)',
-              tension: 0.3
-            }
-          ]
-        },
-        options: { responsive: true, maintainAspectRatio: false }
-      });
-    }
-
-    if (inventoryRef.current) {
-      inventoryChart = new Chart(inventoryRef.current, {
-        type: 'doughnut',
-        data: {
-          labels: ['Electronics', 'Stationery', 'Accessories', 'Food', 'Tools', 'Other'],
-          datasets: [
-            {
-              data: SAMPLE.inventoryByCategory,
-              backgroundColor: ['#0d6efd', '#6c757d', '#198754', '#ffc107', '#dc3545', '#0dcaf0']
-            }
-          ]
-        },
-        options: { responsive: true, maintainAspectRatio: false }
-      });
-    }
-
-    return () => {
-      salesChart?.destroy();
-      inventoryChart?.destroy();
-    };
-  }, []);
+  const monthLabels = ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec'];
+  const maxSales = Math.max(...SAMPLE.salesByMonth);
+  const categoryLabels = ['Electronics', 'Stationery', 'Accessories', 'Food', 'Tools', 'Other'];
+  const maxInventory = Math.max(...SAMPLE.inventoryByCategory);
 
   return (
     <>
@@ -93,7 +48,18 @@ function Dashboard() {
               <small className="text-muted">Last 12 months</small>
             </div>
             <div className="chart-wrap" style={{ position: 'relative' }}>
-              <canvas ref={salesRef} />
+              <div className="d-flex align-items-end gap-2 h-100 pt-3">
+                {SAMPLE.salesByMonth.map((sales, index) => (
+                  <div key={monthLabels[index]} className="d-flex flex-column align-items-center flex-fill h-100">
+                    <div
+                      className="bg-primary rounded-top w-100"
+                      style={{ height: `${Math.max((sales / maxSales) * 100, 8)}%`, minHeight: 12 }}
+                      title={`${monthLabels[index]}: ${sales}`}
+                    />
+                    <small className="text-muted mt-2">{monthLabels[index]}</small>
+                  </div>
+                ))}
+              </div>
             </div>
           </div>
         </div>
@@ -101,7 +67,22 @@ function Dashboard() {
           <div className="card-modern p-3">
             <h6 className="mb-3">Inventory by Category</h6>
             <div className="chart-wrap" style={{ position: 'relative' }}>
-              <canvas ref={inventoryRef} />
+              <div className="d-flex flex-column gap-2 pt-2">
+                {SAMPLE.inventoryByCategory.map((count, index) => (
+                  <div key={categoryLabels[index]}>
+                    <div className="d-flex justify-content-between small mb-1">
+                      <span>{categoryLabels[index]}</span>
+                      <span className="text-muted">{count}</span>
+                    </div>
+                    <div className="progress" style={{ height: 10 }}>
+                      <div
+                        className="progress-bar"
+                        style={{ width: `${Math.max((count / maxInventory) * 100, 6)}%` }}
+                      />
+                    </div>
+                  </div>
+                ))}
+              </div>
             </div>
           </div>
         </div>

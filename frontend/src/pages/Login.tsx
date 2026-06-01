@@ -1,13 +1,17 @@
+import type { FormEvent } from 'react';
 import { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 
+type LoginProps = {
+  onLogin: () => void;
+};
 
-function Login({ onLogin }) {
+function Login({ onLogin }: LoginProps) {
   const [email, setUsername] = useState('');
   const [password, setPassword] = useState('');
   const navigate = useNavigate();
 
-  const handleSubmit = async(event) => {
+  const handleSubmit = async (event: FormEvent<HTMLFormElement>) => {
     event.preventDefault();
     if (!email.trim() || !password.trim()) {
       return;
@@ -26,6 +30,7 @@ function Login({ onLogin }) {
     const responseJson = await response.json();
     console.log(responseJson);
     if(responseJson.success){
+      onLogin();
       navigate('/dashboard');
     }
     else{
