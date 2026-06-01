@@ -1,4 +1,4 @@
-import pool from "../../config/db.js";
+import pool from "../../config/db.config.js";
 
 export const createProduct = async(req, res, next) => {
     const data = req.body;
