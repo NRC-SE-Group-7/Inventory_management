@@ -1,16 +1,16 @@
 import { useState } from 'react';
 import { Routes, Route, Navigate, useLocation } from 'react-router-dom';
-import Layout from './components/Layout.jsx';
-import Dashboard from './pages/Dashboard.jsx';
-import Products from './pages/Products.jsx';
-import Categories from './pages/Categories.jsx';
-import Suppliers from './pages/Suppliers.jsx';
-import Inventory from './pages/Inventory.jsx';
-import Sales from './pages/Sales.jsx';
-import Reports from './pages/Reports.jsx';
-import Users from './pages/Users.jsx';
-import Settings from './pages/Settings.jsx';
-import Login from './pages/Login.jsx';
+import Layout from './components/Layout.tsx';
+import Dashboard from './pages/Dashboard.tsx';
+import Products from './pages/Products.tsx';
+import Categories from './pages/Categories.tsx';
+import Suppliers from './pages/Suppliers.tsx';
+import Inventory from './pages/Inventory.tsx';
+import Sales from './pages/Sales.tsx';
+import Reports from './pages/Reports.tsx';
+import Users from './pages/Users.tsx';
+import Settings from './pages/Settings.tsx';
+import Login from './pages/Login.tsx';
 
 const pageConfigs = {
   '/dashboard': { title: 'Dashboard' },
