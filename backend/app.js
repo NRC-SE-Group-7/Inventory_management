@@ -12,10 +12,9 @@ const corsOptions= {
 
 const app = express();
 app.use(cors({
-    origin: [
-        "http://localhost:5173",
-        "https://inventory-management-kt8docqyh-innocent-kamesa-s-projects.vercel.app/"
-    ]
+    origin: 'https://inventory-management-7kntgg32v-innocent-kamesa-s-projects.vercel.app',
+  methods: ['GET', 'POST', 'PUT', 'DELETE'],
+  allowedHeaders: ['Content-Type', 'Authorization']
 }));
 
 app.use(express.json());
