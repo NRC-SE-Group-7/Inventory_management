@@ -13,7 +13,7 @@ const corsOptions= {
 const app = express();
 app.use(cors({
     origin: [
-        'https://nrc-inventory-ksaucnnxm-innocent-kamesa-s-projects.vercel.app'
+       'https://nrc-inventory-m55xz1wip-innocent-kamesa-s-projects.vercel.app'
         ]
 }));
 
