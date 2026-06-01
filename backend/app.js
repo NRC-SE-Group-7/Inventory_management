@@ -11,7 +11,13 @@ const corsOptions= {
 } 
 
 const app = express();
-app.use(cors());
+app.use(cors({
+    origin: [
+        "http://localhost:5173",
+        "https://inventory-management-kt8docqyh-innocent-kamesa-s-projects.vercel.app/"
+    ]
+}));
+
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
 app.use(express.static('public'));
