@@ -2,6 +2,8 @@ import type { FormEvent } from 'react';
 import { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 
+const API_URL = import.meta.env.BACKEND_URL || "http://127.0.0.1:3000/";
+
 type LoginProps = {
   onLogin: () => void;
 };
@@ -17,7 +19,7 @@ function Login({ onLogin }: LoginProps) {
       return;
     }
     const userData = {email:email, password:password};
-    const response = await fetch("http://127.0.0.1:3000/auth/login/", {
+    const response = await fetch(`${API_URL}auth/login/`, {
       method:"POST",
       headers:{
       "content-type":"application/json",
