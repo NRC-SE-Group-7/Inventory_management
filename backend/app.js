@@ -13,8 +13,7 @@ const corsOptions= {
 const app = express();
 app.use(cors({
     origin: [
-        'https://inventory-management-g6jlqmr9z-innocent-kamesa-s-projects.vercel.app',
-        'https://inventory-management-bg5cghr5p-innocent-kamesa-s-projects.vercel.app'
+        'https://nrc-inventory-ksaucnnxm-innocent-kamesa-s-projects.vercel.app'
         ]
 }));
 
