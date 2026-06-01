@@ -32,15 +32,13 @@ export const register = async(req, res, next) => {
 
 export const login = async(req, res, next) => {
     const {email, password} = req.body;
-
     try {
         //get user from database if exists
-        const {rows, rowCount} = await pool.query(`SELECT password_hash FROM users WHERE email='${email}'`);
+        const {rows, rowCount} = await pool.query(`SELECT password_hash, full_name, role FROM users WHERE email='${email}'`);
         if (rowCount !== 1) {
             return res.status(401).json({ message: "Invalid username or password"});
         }
         const user = rows[0];
-        console.log("reached")
         //compare passwords
         const isPasswordValid = await bcrypt.compare(password, user.password_hash);
         if (!isPasswordValid) {
@@ -52,7 +50,9 @@ export const login = async(req, res, next) => {
         const access = jwt.sign({ userId: user.id, username: user.username }, process.env.JWT_SECRET, { expiresIn: "15m" });
         
         //returning tokens and user data
-        res.json({ data:user, tokens: {access, refresh } }).status(200);
+        const {full_name, role} = rows[0];
+        const userData = {full_name, role}
+        res.json({ success:true, data:userData, tokens: {access, refresh } }).status(200);
     }
     catch (error) {
         console.error("Login error:", error);

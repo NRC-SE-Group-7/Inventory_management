@@ -3,17 +3,34 @@ import { useNavigate } from 'react-router-dom';
 
 
 function Login({ onLogin }) {
-  const [username, setUsername] = useState('');
+  const [email, setUsername] = useState('');
   const [password, setPassword] = useState('');
   const navigate = useNavigate();
 
-  const handleSubmit = event => {
+  const handleSubmit = async(event) => {
     event.preventDefault();
-    if (!username.trim() || !password.trim()) {
+    if (!email.trim() || !password.trim()) {
       return;
     }
-    onLogin();
-    navigate('/dashboard');
+    const userData = {email:email, password:password};
+    const response = await fetch("http://127.0.0.1:3000/auth/login/", {
+      method:"POST",
+      headers:{
+      "content-type":"application/json",
+      },
+      body:JSON.stringify(userData)
+    });
+    if(!response.ok){
+      alert("Error while logging in")
+    }
+    const responseJson = await response.json();
+    console.log(responseJson);
+    if(responseJson.success){
+      navigate('/dashboard');
+    }
+    else{
+    alert("Failed to login user")
+    }
   };
 
   return (
@@ -27,9 +44,10 @@ function Login({ onLogin }) {
           </div>
           <form onSubmit={handleSubmit}>
             <div className="mb-3">
-              <label className="form-label">Email or Username</label>
+              <label className="form-label">Email</label>
               <input
-                value={username}
+                name="email"
+                value={email}
                 onChange={e => setUsername(e.target.value)}
                 type="text"
                 className="form-control"
