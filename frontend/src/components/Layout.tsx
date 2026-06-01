@@ -1,12 +1,22 @@
-import Sidebar from './Sidebar.jsx';
-import Topbar from './Topbar.jsx';
+import type { ReactNode } from 'react';
+import Sidebar from './Sidebar.tsx';
+import Topbar from './Topbar.tsx';
 
-function Layout({ children, title, onToggleSidebar, sidebarOpen, onCloseSidebar }) {
+type LayoutProps = {
+  children: ReactNode;
+  title: string;
+  actionLabel?: string;
+  onToggleSidebar: () => void;
+  sidebarOpen: boolean;
+  onCloseSidebar: () => void;
+};
+
+function Layout({ children, title, actionLabel, onToggleSidebar, sidebarOpen, onCloseSidebar }: LayoutProps) {
   return (
     <div className="d-flex">
       <Sidebar open={sidebarOpen} onLinkClick={onCloseSidebar} />
       <div className="content flex-fill">
-        <Topbar title={title} onToggleSidebar={onToggleSidebar} />
+        <Topbar title={title} actionLabel={actionLabel} onToggleSidebar={onToggleSidebar} />
         <main className="mt-4">{children}</main>
       </div>
     </div>

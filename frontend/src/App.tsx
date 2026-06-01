@@ -12,7 +12,12 @@ import Users from './pages/Users.tsx';
 import Settings from './pages/Settings.tsx';
 import Login from './pages/Login.tsx';
 
-const pageConfigs = {
+type PageConfig = {
+  title: string;
+  action?: string;
+};
+
+const pageConfigs: Record<string, PageConfig> = {
   '/dashboard': { title: 'Dashboard' },
   '/products': { title: 'Products', action: 'Add Product' },
   '/categories': { title: 'Categories', action: 'Add Category' },
@@ -26,11 +31,10 @@ const pageConfigs = {
 
 function App() {
   const location = useLocation();
-  const [loggedIn, setLoggedIn] = useState(false);
+  const [, setLoggedIn] = useState(false);
   const [sidebarOpen, setSidebarOpen] = useState(false);
 
   const currentConfig = pageConfigs[location.pathname] || { title: 'Inventory' };
-  const hideLayout = location.pathname === '/login';
 
   return (
     <Routes>

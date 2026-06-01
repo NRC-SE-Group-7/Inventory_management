@@ -1,5 +1,5 @@
 import { useMemo, useState } from 'react';
-import { SAMPLE } from '../data/sampleData.js';
+import { SAMPLE } from '../data/sampleData.ts';
 
 function Products() {
   const [products, setProducts] = useState(SAMPLE.products);
@@ -26,7 +26,7 @@ function Products() {
         id: nextId,
         name: form.name || 'New product',
         category: form.category || 'Uncategorized',
-        qty: form.qty || 0,
+        qty: Number(form.qty) || 0,
         price: form.price || '$0.00',
         supplier: form.supplier || 'Unknown'
       }
