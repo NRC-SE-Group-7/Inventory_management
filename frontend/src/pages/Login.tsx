@@ -2,7 +2,9 @@ import type { FormEvent } from 'react';
 import { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 
-const API_URL = import.meta.env.BACKEND_URL;
+
+const API_URL = import.meta.env.VITE_API_URL;
+console.log(API_URL);
 
 type LoginProps = {
   onLogin: () => void;
