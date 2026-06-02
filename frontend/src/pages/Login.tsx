@@ -1,6 +1,7 @@
 import type { FormEvent } from 'react';
 import { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
+import "../tailwind.css";
 
 
 const API_URL = import.meta.env.VITE_API_URL;
@@ -10,12 +11,22 @@ type LoginProps = {
   onLogin: () => void;
 };
 
+const LoadingSpinner = () => {
+  return (
+    <div className="flex items-center justify-center h-full ">
+      <div className="w-12 h-12 border-4 border-gray-300 border-t-blue-500 rounded-full animate-spin"></div>
+    </div>
+  );
+}
+
 function Login({ onLogin }: LoginProps) {
+  const [loading, setLoading] = useState(false);
   const [email, setUsername] = useState('');
   const [password, setPassword] = useState('');
   const navigate = useNavigate();
 
   const handleSubmit = async (event: FormEvent<HTMLFormElement>) => {
+    setLoading(true);
     event.preventDefault();
     if (!email.trim() || !password.trim()) {
       return;
@@ -34,6 +45,7 @@ function Login({ onLogin }: LoginProps) {
     const responseJson = await response.json();
     console.log(responseJson);
     if(responseJson.success){
+      setLoading(false);
       onLogin();
       navigate('/dashboard');
     }
@@ -44,6 +56,7 @@ function Login({ onLogin }: LoginProps) {
 
   return (
     <div className="container d-flex align-items-center justify-content-center min-vh-100">
+    { loading ? ( <LoadingSpinner /> ) : (
       <div className="card shadow-sm login-card w-100" style={{ maxWidth: 420 }}>
         <div className="card-body p-4">
           <div className="text-center mb-3">
@@ -88,8 +101,10 @@ function Login({ onLogin }: LoginProps) {
           </form>
         </div>
       </div>
+    )
+  }
     </div>
-  );
+  )
 }
 
 export default Login;
