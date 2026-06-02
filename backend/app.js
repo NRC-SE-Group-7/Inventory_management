@@ -15,7 +15,8 @@ app.use(cors({
     origin: [
        'https://nrc-inventory-ksaucnnxm-innocent-kamesa-s-projects.vercel.app',
         'https://nrc-inventory-le86by25y-innocent-kamesa-s-projects.vercel.app',
-        'https://nrc-inventory.vercel.app'
+        'https://nrc-inventory.vercel.app',
+        'http://localhost:5173'
         ]
 }));
 
