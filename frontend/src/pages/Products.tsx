@@ -1,4 +1,4 @@
-import { useMemo, useState, useEffect } from 'react';
+import { useState } from 'react';
 import { SAMPLE } from '../data/sampleData.ts';
 import LoadingSpinner from '../components/spinner.tsx';
 
@@ -11,7 +11,7 @@ function Products() {
   const [modalOpen, setModalOpen] = useState(false);
   const [form, setForm] = useState({ name: '', category: '', qty: '', price: '', supplier: '' });
 
-  const handleChange = (e) => {
+  const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     const { name, value } = e.target;
     console.log(name, value);
     const newForm = {
@@ -20,7 +20,7 @@ function Products() {
     }
     setForm(newForm);
   }
-  const handleSubmit = async(e) => {
+  const handleSubmit = async() => {
     setModalOpen(false);
     setLoading(true);
     try {
@@ -33,41 +33,13 @@ function Products() {
       });
       const newProduct = await response.json();
       setProducts(prev => [...prev, newProduct]);
+      console.log(products);
     } catch (error) {
       console.error('Error adding product:', error);
     } finally {
       setLoading(false);
     }
-  }
-
-  const filteredProducts = useMemo(() => {
-    const term = query.toLowerCase();
-    return products.filter(
-      product =>
-        product.id.toLowerCase().includes(term) ||
-        product.name.toLowerCase().includes(term) ||
-        product.category.toLowerCase().includes(term) ||
-        product.supplier.toLowerCase().includes(term)
-    );
-  }, [products, query]);
-
-  const saveProduct = () => {
-    const nextId = `P-${Date.now().toString().slice(-4)}`;
-    setProducts(prev => [
-      ...prev,
-      {
-        id: nextId,
-        name: form.name || 'New product',
-        category: form.category || 'Uncategorized',
-        qty: Number(form.qty) || 0,
-        price: form.price || '$0.00',
-        supplier: form.supplier || 'Unknown'
-      }
-    ]);
-    setForm({ name: '', category: '', qty: '', price: '', supplier: '' });
-    setModalOpen(false);
   };
-
   return (
     <> 
        { loading ? ( <LoadingSpinner /> ): (
