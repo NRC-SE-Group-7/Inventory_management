@@ -14,6 +14,7 @@ const app = express();
 app.use(cors({
     origin: [
        'https://nrc-inventory-ksaucnnxm-innocent-kamesa-s-projects.vercel.app',
+        'https://nrc-inventory-git-feature-ui-innocent-kamesa-s-projects.vercel.app',
         'https://nrc-inventory.vercel.app'
         ]
 }));
