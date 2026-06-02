@@ -1,7 +1,7 @@
 import pool from "../../config/db.config.js";
 
 export const createProduct = async(req, res, next) => {
-    const { name, quantity, price, category, supplier_id, company_id} = req.body;
+    const { name, qty, supplier, price, category} = req.body;
     try {
     //check duplicate products
     const {rows, rowCount} = await pool.query('SELECT * FROM products WHERE name = $1', [name]);
@@ -10,7 +10,7 @@ export const createProduct = async(req, res, next) => {
     }
 
     //saving product
-    const {rows: newProduct, rowCount: newProductCount} = await pool.query('INSERT INTO products (name, quantity, price, category, supplier_id, company_id) VALUES ($1, $2, $3, $4, $5, $6) RETURNING *', [name, quantity, price, category, supplier_id, company_id]);
+    const {rows: newProduct, rowCount: newProductCount} = await pool.query('INSERT INTO products (name, quantity, price, category) VALUES ($1, $2, $3, $4) RETURNING *', [name, quantity, price, category]);
     if(newProductCount !== 1) {
         return res.status(500).json({ message: 'Failed to create product' });
     }
