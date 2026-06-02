@@ -2,7 +2,7 @@ import express from 'express';
 import authRouter from './src/routers/authentication/authentication.router.js';
 import dotenv from "dotenv";
 import cors from "cors";
-import productsRouter from './src/routers/products.router.js';
+import productsRouter from './src/routers/products/products.router.js';
 dotenv.config();
 
 const corsOptions= {
@@ -21,6 +21,7 @@ app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
 app.use(express.static('public'));
 app.use("/auth/", authRouter)
+app.use("/products/", productsRouter);
 
 app.use((err, req, res, next) => {
     console.error(err.stack);
