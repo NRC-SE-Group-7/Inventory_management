@@ -77,7 +77,7 @@ function Products() {
               </tr>
             </thead>
             <tbody>
-              {filteredProducts.map(product => (
+              {products.map(product => (
                 <tr key={product.id}>
                   <td>{product.id}</td>
                   <td>{product.name}</td>
