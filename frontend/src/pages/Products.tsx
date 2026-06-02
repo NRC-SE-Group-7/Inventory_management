@@ -1,11 +1,44 @@
-import { useMemo, useState } from 'react';
+import { useMemo, useState, useEffect } from 'react';
 import { SAMPLE } from '../data/sampleData.ts';
+import LoadingSpinner from '../components/spinner.tsx';
+
+const API_URL = import.meta.env.VITE_API_URL;
 
 function Products() {
   const [products, setProducts] = useState(SAMPLE.products);
+  const [loading, setLoading] = useState(false);
   const [query, setQuery] = useState('');
   const [modalOpen, setModalOpen] = useState(false);
   const [form, setForm] = useState({ name: '', category: '', qty: '', price: '', supplier: '' });
+
+  const handleChange = (e) => {
+    const { name, value } = e.target;
+    console.log(name, value);
+    const newForm = {
+      ...form,
+      [name]: value
+    }
+    setForm(newForm);
+  }
+  const handleSubmit = async(e) => {
+    setModalOpen(false);
+    setLoading(true);
+    try {
+      const response = await fetch(`${API_URL}/products/create/`, {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json'
+        },
+        body: JSON.stringify(form)
+      });
+      const newProduct = await response.json();
+      setProducts(prev => [...prev, newProduct]);
+    } catch (error) {
+      console.error('Error adding product:', error);
+    } finally {
+      setLoading(false);
+    }
+  }
 
   const filteredProducts = useMemo(() => {
     const term = query.toLowerCase();
@@ -36,7 +69,9 @@ function Products() {
   };
 
   return (
-    <>
+    <> 
+       { loading ? ( <LoadingSpinner /> ): (
+          <div>
       <div className="card-modern p-3 mb-3">
         <div className="d-flex align-items-center justify-content-between">
           <div className="d-flex mb-3 w-100">
@@ -100,42 +135,47 @@ function Products() {
               <div className="col-md-6">
                 <label className="form-label">Product Name</label>
                 <input
+                  name='name'
                   className="form-control"
                   value={form.name}
-                  onChange={e => setForm(prev => ({ ...prev, name: e.target.value }))}
+                  onChange={handleChange}
                 />
               </div>
               <div className="col-md-6">
                 <label className="form-label">Category</label>
                 <input
+                  name='category'
                   className="form-control"
                   value={form.category}
-                  onChange={e => setForm(prev => ({ ...prev, category: e.target.value }))}
+                  onChange={handleChange}
                 />
               </div>
               <div className="col-md-4">
                 <label className="form-label">Quantity</label>
                 <input
+                  name='qty'
                   type="number"
                   className="form-control"
                   value={form.qty}
-                  onChange={e => setForm(prev => ({ ...prev, qty: e.target.value }))}
+                  onChange={handleChange}
                 />
               </div>
               <div className="col-md-4">
                 <label className="form-label">Price</label>
                 <input
+                  name='price'
                   className="form-control"
                   value={form.price}
-                  onChange={e => setForm(prev => ({ ...prev, price: e.target.value }))}
+                  onChange={handleChange}
                 />
               </div>
               <div className="col-md-4">
                 <label className="form-label">Supplier</label>
                 <input
+                  name='supplier'
                   className="form-control"
                   value={form.supplier}
-                  onChange={e => setForm(prev => ({ ...prev, supplier: e.target.value }))}
+                  onChange={handleChange}
                 />
               </div>
             </div>
@@ -143,13 +183,16 @@ function Products() {
               <button className="btn btn-secondary btn-sm me-2" type="button" onClick={() => setModalOpen(false)}>
                 Cancel
               </button>
-              <button className="btn btn-primary btn-sm" type="button" onClick={saveProduct}>
+              <button className="btn btn-primary btn-sm" type="button" onClick={handleSubmit}>
                 Save
               </button>
             </div>
           </div>
         </div>
       )}
+      </div>
+      )
+      }
     </>
   );
 }

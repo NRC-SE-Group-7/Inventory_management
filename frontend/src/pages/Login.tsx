@@ -2,6 +2,7 @@ import type { FormEvent } from 'react';
 import { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import "../tailwind.css";
+import LoadingSpinner from '../components/spinner.tsx';
 
 
 const API_URL = import.meta.env.VITE_API_URL;
@@ -11,13 +12,6 @@ type LoginProps = {
   onLogin: () => void;
 };
 
-const LoadingSpinner = () => {
-  return (
-    <div className="flex items-center justify-center h-full ">
-      <div className="w-12 h-12 border-4 border-gray-300 border-t-blue-500 rounded-full animate-spin"></div>
-    </div>
-  );
-}
 
 function Login({ onLogin }: LoginProps) {
   const [loading, setLoading] = useState(false);
