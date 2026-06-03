@@ -4,7 +4,7 @@ import { useNavigate } from 'react-router-dom';
 import "../tailwind.css";
 import LoadingSpinner from '../components/spinner.tsx';
 
-const NODE_ENV = import.meta.env.NODE_ENV;
+const NODE_ENV = import.meta.env.VITE_NODE_ENV;
 let API_URL = "";
 
 if (NODE_ENV === 'development') {
@@ -51,7 +51,8 @@ function Login({ onLogin }: LoginProps) {
       navigate('/dashboard');
     }
     else{
-    alert("Failed to login user")
+    alert("Failed to login user");
+    setLoading(false);
     }
   };
 

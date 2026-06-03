@@ -3,6 +3,7 @@ import authRouter from './src/routers/authentication/authentication.router.js';
 import dotenv from "dotenv";
 import cors from "cors";
 import productsRouter from './src/routers/products/products.router.js';
+import inventoryRouter from './src/routers/inventory/inventory.router.js';
 dotenv.config();
 
 const corsOptions= {
@@ -25,10 +26,11 @@ app.use(express.urlencoded({ extended: true }));
 app.use(express.static('public'));
 app.use("/auth/", authRouter);
 app.use("/products/", productsRouter);
+app.use("/inventory/", inventoryRouter);
 
 app.use((err, req, res, next) => {
-    console.error(err.stack);
-    res.status(500).json({ message:`Internal Server Error: ${err}` });
+    console.log(`Internal server error: ${err}`);
+    res.status(500).json({ message: `Internal Server Error: ${err}` });
 });
 
 export default app;

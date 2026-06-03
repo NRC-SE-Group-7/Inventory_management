@@ -116,6 +116,8 @@ function Products() {
                 <tr key={product.id}>
                   <td>{product.id}</td>
                   <td>{product.name}</td>
+                  <td>NaN</td>
+                  <td>{product.quantity}</td>
                 
                   <td>
                     <button className="btn btn-sm btn-outline-primary me-1">Edit</button>
