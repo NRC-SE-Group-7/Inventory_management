@@ -12,15 +12,18 @@ const corsOptions= {
 
 const app = express();
 app.use(cors({
-    origin: 'https://inventory-management-7kntgg32v-innocent-kamesa-s-projects.vercel.app',
-  methods: ['GET', 'POST', 'PUT', 'DELETE'],
-  allowedHeaders: ['Content-Type', 'Authorization']
+    origin: [
+       'https://nrc-inventory-ksaucnnxm-innocent-kamesa-s-projects.vercel.app',
+        'https://nrc-inventory-le86by25y-innocent-kamesa-s-projects.vercel.app',
+        'https://nrc-inventory.vercel.app',
+        'http://localhost:5173'
+        ]
 }));
 
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
 app.use(express.static('public'));
-app.use("/auth/", authRouter)
+app.use("/auth/", authRouter);
 app.use("/products/", productsRouter);
 
 app.use((err, req, res, next) => {
