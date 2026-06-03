@@ -15,6 +15,7 @@ else {
 }
 console.log(API_URL);
 
+
 function Products() {
   const [products, setProducts] = useState(SAMPLE.products);
   const [loading, setLoading] = useState(false);
@@ -115,10 +116,7 @@ function Products() {
                 <tr key={product.id}>
                   <td>{product.id}</td>
                   <td>{product.name}</td>
-                  <td>{product.description}</td>
-                  <td>{product.quantity}</td>
-                  <td>{product.selling_price}</td>
-                  <td>{product.supplier}</td>
+                
                   <td>
                     <button className="btn btn-sm btn-outline-primary me-1">Edit</button>
                     <button className="btn btn-sm btn-outline-danger">Delete</button>
