@@ -31,6 +31,7 @@ function Products() {
         },
         body: JSON.stringify(form)
       });
+      console.log(response.status)
       const newProduct = await response.json();
       setProducts(prev => [...prev, newProduct]);
       console.log(products);
