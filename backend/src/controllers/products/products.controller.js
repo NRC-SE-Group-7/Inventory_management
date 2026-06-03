@@ -1,7 +1,14 @@
 import pool from "../../config/db.config.js";
 
 export const createProduct = async(req, res, next) => {
+    console.log(req.body);
     const { name, qty, supplier, price, category} = req.body;
+
+    //all fields are required
+    if (!name || !qty || !price || !category) {
+        return res.status(400).json({ message: 'All fields are required' });
+    }
+
     try {
     //check duplicate products
     const {rows, rowCount} = await pool.query('SELECT * FROM products WHERE name = $1', [name]);
@@ -10,11 +17,11 @@ export const createProduct = async(req, res, next) => {
     }
 
     //saving product
-    const {rows: newProduct, rowCount: newProductCount} = await pool.query('INSERT INTO products (name, quantity, price, category) VALUES ($1, $2, $3, $4) RETURNING *', [name, qty, price, category]);
+    const {rows: newProduct, rowCount: newProductCount} = await pool.query('INSERT INTO products (name, quantity, selling_price, description, company_id) VALUES ($1, $2, $3, $4, $5) RETURNING *', [name, parseInt(qty), parseInt(price), category, 1]);
     if(newProductCount !== 1) {
         return res.status(500).json({ message: 'Failed to create product' });
     }
-    res.status(201).json({ message: 'Product created successfully', product: newProduct[0] });
+    res.status(201).json({ message: 'Product created successfully', data: newProduct[0] });
     }
     catch (error) {
         next(error);

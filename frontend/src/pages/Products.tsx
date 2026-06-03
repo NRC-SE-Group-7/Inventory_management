@@ -1,8 +1,19 @@
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import { SAMPLE } from '../data/sampleData.ts';
 import LoadingSpinner from '../components/spinner.tsx';
 
-const API_URL = import.meta.env.VITE_API_URL;
+// Determine API URL based on environment
+const NODE_ENV = import.meta.env.VITE_NODE_ENV;
+console.log(NODE_ENV);
+let API_URL = "";
+
+if (NODE_ENV === 'development') {
+  API_URL = 'http://localhost:3000';
+}
+else {
+  API_URL = import.meta.env.VITE_API_URL;
+}
+console.log(API_URL);
 
 function Products() {
   const [products, setProducts] = useState(SAMPLE.products);
@@ -10,6 +21,26 @@ function Products() {
   const [query, setQuery] = useState('');
   const [modalOpen, setModalOpen] = useState(false);
   const [form, setForm] = useState({ name: '', category: '', qty: '', price: '', supplier: '' });
+
+  // Fetch products from API on component mount
+  useEffect(() => {
+    const fetchProducts = async () => {
+      setLoading(true);
+      try {
+        const response = await fetch(`${API_URL}/products/`, {
+          method: "GET"
+        });
+        const data = await response.json();
+        setProducts(data.data);
+      } catch (error) {
+        console.error('Error fetching products:', error);
+      } finally {
+        setLoading(false);
+      }
+    };
+
+    fetchProducts();
+  }, [API_URL]);
 
   const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     const { name, value } = e.target;
@@ -20,6 +51,8 @@ function Products() {
     }
     setForm(newForm);
   }
+
+  //handling product creation form submission
   const handleSubmit = async() => {
     setModalOpen(false);
     setLoading(true);
@@ -82,9 +115,9 @@ function Products() {
                 <tr key={product.id}>
                   <td>{product.id}</td>
                   <td>{product.name}</td>
-                  <td>{product.category}</td>
-                  <td>{product.qty}</td>
-                  <td>{product.price}</td>
+                  <td>{product.description}</td>
+                  <td>{product.quantity}</td>
+                  <td>{product.selling_price}</td>
                   <td>{product.supplier}</td>
                   <td>
                     <button className="btn btn-sm btn-outline-primary me-1">Edit</button>

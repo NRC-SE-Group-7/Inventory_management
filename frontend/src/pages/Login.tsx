@@ -4,8 +4,15 @@ import { useNavigate } from 'react-router-dom';
 import "../tailwind.css";
 import LoadingSpinner from '../components/spinner.tsx';
 
+const NODE_ENV = import.meta.env.NODE_ENV;
+let API_URL = "";
 
-const API_URL = import.meta.env.VITE_API_URL;
+if (NODE_ENV === 'development') {
+  API_URL = 'http://localhost:3000';
+}
+else {
+  API_URL = import.meta.env.VITE_API_URL;
+}
 console.log(API_URL);
 
 type LoginProps = {
