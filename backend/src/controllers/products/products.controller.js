@@ -10,7 +10,7 @@ export const createProduct = async(req, res, next) => {
     }
 
     //saving product
-    const {rows: newProduct, rowCount: newProductCount} = await pool.query('INSERT INTO products (name, quantity, price, category) VALUES ($1, $2, $3, $4) RETURNING *', [name, quantity, price, category]);
+    const {rows: newProduct, rowCount: newProductCount} = await pool.query('INSERT INTO products (name, quantity, price, category) VALUES ($1, $2, $3, $4) RETURNING *', [name, qty, price, category]);
     if(newProductCount !== 1) {
         return res.status(500).json({ message: 'Failed to create product' });
     }
