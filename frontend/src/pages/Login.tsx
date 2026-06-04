@@ -6,6 +6,7 @@ import LoadingSpinner from '../components/spinner.tsx';
 
 const NODE_ENV = import.meta.env.VITE_NODE_ENV;
 let API_URL = "";
+console.log(NODE_ENV);
 
 if (NODE_ENV === 'development') {
   API_URL = 'http://localhost:3000';
