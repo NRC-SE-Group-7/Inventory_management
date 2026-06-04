@@ -21,8 +21,8 @@ export const SAMPLE = {
     { id: 2, name: 'Stationery', products: 16 }
   ],
   suppliers: [
-    { id: 1, name: 'SupplyCo', contact: 'John Doe', products: 12 },
-    { id: 2, name: 'WireWorld', contact: 'Emma Smith', products: 9 }
+    { id: 1, company_id: 'C-1001', name: 'SupplyCo', email: 'john.doe@supplyco.com', products: 12 },
+    { id: 2, company_id: 'C-1002', name: 'WireWorld', email: 'emma.smith@wireworld.com', products: 9 }
   ],
   inventoryMovements: [
     { type: 'In', product: 'AA Batteries', qty: 20, ref: 'PO-200', date: '2026-05-26' },

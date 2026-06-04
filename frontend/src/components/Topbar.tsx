@@ -25,12 +25,9 @@ function Topbar({ title, actionLabel, onToggleSidebar }: TopbarProps) {
           </button>
         )}
         <div className="me-3 text-end d-none d-md-block">
-          <div className="small text-muted">Welcome back,</div>
+          <div className="small text-muted font-semibold">Welcome back,</div>
           <div className="fw-bold">Admin</div>
         </div>
-        <button className="btn btn-sm btn-outline-secondary d-none d-md-inline-block">
-          <i className="fa fa-user" />
-        </button>
       </div>
     </header>
   );

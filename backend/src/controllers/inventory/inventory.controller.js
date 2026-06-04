@@ -47,6 +47,37 @@ export const stockIn = async(req, res, next) => {
     }
 }
 
+export const getInventorySummary = async (req, res, next) => {
+  const company_id = 1;
+
+  try {
+    const { rows: products } = await pool.query(
+      'SELECT id, name, quantity, selling_price FROM products WHERE company_id = $1',
+      [company_id]
+    );
+
+    const totalQuantity = products.reduce((sum, product) => sum + Number(product.quantity || 0), 0);
+    const totalValue = products.reduce(
+      (sum, product) => sum + Number(product.quantity || 0) * Number(product.selling_price || 0),
+      0
+    );
+    const lowStock = products.filter(product => Number(product.quantity || 0) <= 5);
+
+    res.status(200).json({
+      success: true,
+      data: {
+        products,
+        totalQuantity,
+        totalProducts: products.length,
+        totalValue,
+        lowStock
+      }
+    });
+  } catch (error) {
+    next(error);
+  }
+};
+
 export const stockOut = async(req, res, next) => {
     const {name, quantity} = req.body;
 

@@ -16,21 +16,46 @@ else {
 console.log(API_URL);
 
 
+type Product = {
+  id: string;
+  name: string;
+  category: string;
+  qty?: number;
+  quantity?: number;
+  price: string;
+  selling_price?: string;
+  supplier: string;
+};
+
+type ProductForm = {
+  name: string;
+  category: string;
+  qty: string;
+  price: string;
+  supplier: string;
+};
+
 function Products() {
-  const [products, setProducts] = useState(SAMPLE.products);
+  const [products, setProducts] = useState<Product[]>(SAMPLE.products);
   const [loading, setLoading] = useState(false);
   const [query, setQuery] = useState('');
   const [modalOpen, setModalOpen] = useState(false);
-  const [form, setForm] = useState({ name: '', category: '', qty: '', price: '', supplier: '' });
+  const [form, setForm] = useState<ProductForm>({ name: '', category: '', qty: '', price: '', supplier: '' });
 
   // Fetch products from API on component mount
   useEffect(() => {
     const fetchProducts = async () => {
       setLoading(true);
       try {
-        const response = await fetch(`${API_URL}/products/`, {
+        const response = await fetch(`${API_URL}/products/get/`, {
           method: "GET"
         });
+        if(!response.ok) {
+          throw new Error('Failed to fetch products',);
+        }
+        if(response.status === 203){
+          return;
+        }
         const data = await response.json();
         setProducts(data.data);
       } catch (error) {
@@ -57,16 +82,18 @@ function Products() {
   const handleSubmit = async() => {
     setModalOpen(false);
     setLoading(true);
+    console.log(form);
     try {
       const response = await fetch(`${API_URL}/products/create/`, {
         method: 'POST',
-        headers: {
-          'Content-Type': 'application/json'
+        headers:{
+          "Content-Type":"application/json"
         },
         body: JSON.stringify(form)
       });
       console.log(response.status)
       const newProduct = await response.json();
+      console.log(newProduct);
       setProducts(prev => [...prev, newProduct]);
       console.log(products);
     } catch (error) {
@@ -78,7 +105,7 @@ function Products() {
   return (
     <> 
        { loading ? ( <LoadingSpinner /> ): (
-          <div>
+          <div className="bg-gray-100 shadow-lg rounded-md h-screen">
       <div className="card-modern p-3 mb-3">
         <div className="d-flex align-items-center justify-content-between">
           <div className="d-flex mb-3 w-100">
@@ -88,7 +115,7 @@ function Products() {
               value={query}
               onChange={e => setQuery(e.target.value)}
             />
-            <button className="btn btn-outline-secondary" type="button" onClick={() => setQuery('')}>
+            <button className="btn btn-outline-secondary mx-3" type="button" onClick={() => setQuery('')}>
               Clear
             </button>
           </div>
@@ -106,25 +133,30 @@ function Products() {
                 <th>Name</th>
                 <th>Category</th>
                 <th>Qty</th>
-                <th>Price</th>
+                <th>Price (MKW)</th>
                 <th>Supplier</th>
                 <th>Actions</th>
               </tr>
             </thead>
             <tbody>
-              {products.map(product => (
-                <tr key={product.id}>
-                  <td>{product.id}</td>
-                  <td>{product.name}</td>
-                  <td>NaN</td>
-                  <td>{product.quantity}</td>
-                
-                  <td>
-                    <button className="btn btn-sm btn-outline-primary me-1">Edit</button>
-                    <button className="btn btn-sm btn-outline-danger">Delete</button>
-                  </td>
-                </tr>
-              ))}
+              {products.map(product => {
+                const quantity = product.quantity ?? product.qty ?? 0;
+                const price = product.selling_price ?? product.price;
+                return (
+                  <tr key={product.id}>
+                    <td>{product.id}</td>
+                    <td>{product.name}</td>
+                    <td>{product.category}</td>
+                    <td>{quantity}</td>
+                    <td>{price}</td>
+                    <td>{product.supplier}</td>
+                    <td>
+                      <button className="btn btn-sm btn-outline-primary me-1">Edit</button>
+                      <button className="btn btn-sm btn-outline-danger">Delete</button>
+                    </td>
+                  </tr>
+                );
+              })}
             </tbody>
           </table>
         </div>

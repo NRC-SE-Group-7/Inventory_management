@@ -40,8 +40,14 @@ function Login({ onLogin }: LoginProps) {
       },
       body:JSON.stringify(userData)
     });
+    if(response.status === 401){
+      alert("Invalid credentials");
+      setLoading(false);
+      return;
+    }
     if(!response.ok){
       alert("Error while logging in")
+      setLoading(false);
     }
     const responseJson = await response.json();
     console.log(responseJson);

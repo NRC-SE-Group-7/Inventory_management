@@ -4,7 +4,7 @@ import {createProduct, getProducts} from '../../controllers/products/products.co
 
 const productsRouter = express.Router();
 
-productsRouter.get('/', getProducts);
+productsRouter.get('/get/', getProducts);
 //productsRouter.get('/:id', getProductById);
 productsRouter.post('/create/', createProduct);
 //productsRouter.put('/:id', updateProduct);

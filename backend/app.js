@@ -4,6 +4,7 @@ import dotenv from "dotenv";
 import cors from "cors";
 import productsRouter from './src/routers/products/products.router.js';
 import inventoryRouter from './src/routers/inventory/inventory.router.js';
+import supplierRouter from './src/routers/supplier/supplier.router.js';
 dotenv.config();
 
 const corsOptions= {
@@ -27,6 +28,7 @@ app.use(express.static('public'));
 app.use("/auth/", authRouter);
 app.use("/products/", productsRouter);
 app.use("/inventory/", inventoryRouter);
+app.use("/suppliers/", supplierRouter);
 
 app.use((err, req, res, next) => {
     console.log(`Internal server error: ${err}`);
