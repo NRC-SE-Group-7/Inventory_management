@@ -1,6 +1,6 @@
 import {Pool} from "pg";
 
-const production = process.env.NODE_URL === "production";
+const production = process.env.NODE_ENV === "production";
 
  
 const pool = production ? new Pool ({
